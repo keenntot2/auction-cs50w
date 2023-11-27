@@ -1,0 +1,38 @@
+{% extends 'auctions/layout.html' %}
+ 
+{% block title %}
+    {{ category }} - Auctions
+{% endblock %}
+
+{% block body %}
+
+    <div class="categoryWrapper">
+        <h1>Category: {{ category }}</h1>
+        {% for listing in listings %}
+            <div class="listing">
+                <div class="displaypic">
+                    <a href="{% url 'listing' listing.title listing.id %}"><img src="{{ listing.image }}" alt=""></a>
+                </div>
+                <div class="itemInfo">
+                    <div class="infoTitle">
+                        <a href="{% url 'listing' listing.title listing.id %}">
+                            <h4>{{ listing.title }}</h4>
+                        </a>
+                    </div>
+                    <div class="infoDescription">{{ listing.description }}</div>
+                    <div class="infoStartingBid">
+                        <span class="dollar">$</span>
+                        <span class="price">{{ listing.startingBid | floatformat:2 }}</span>
+                    </div>
+                    <div class="created">
+                        <p>Listed: {{ listing.timestamp }}</p>
+                        <p>Posted by: {{ listing.seller.username }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <li>There is currently no item in '{{ category }}' category</li>
+        {% endfor %}
+    </div>
+
+{% endblock%}

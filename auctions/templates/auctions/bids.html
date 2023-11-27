@@ -1,0 +1,53 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}
+    Bids - Auctions
+{% endblock %}
+
+{% block body %}
+
+    <div class="bidsWrapper">
+        <h1>Bids</h1>
+        <div class="allListings">
+            {% for listing in listings %}
+                    <div class="listing">
+                        <div class="displaypic">
+                            <a href="{% url 'listing' listing.listing.title listing.listing.id %}"><img src="{{ listing.listing.image }}" alt=""></a>
+                        </div>
+                        <div class="itemInfo">
+                            <div class="infoTitle">
+                                <a href="{% url 'listing' listing.listing.title listing.listing.id %}">
+                                    <h4>{{ listing.listing.title }}</h4>
+                                </a>
+                                <div class="availabilityStatus">
+                                    {% if listing.listing.availability %}
+                                        {% if listing.highestBidder == request.user.id %}
+                                        <p><strong>[ {{ listing.nBid }} Bids ]</strong> You are currently the highest bidder. <strong>Current Bid: ${{ listing.highestBid | floatformat:2 }}</strong></p>
+                                        {% else %}
+                                        <p><strong>[ {{ listing.nBid }} Bids ]</strong> Someone has outbid you. <strong>Current Bid: ${{ listing.highestBid | floatformat:2 }}</strong></p>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if listing.highestBidder == request.user.id %}
+                                            <p>Congratulations! You won the item for <strong>{{ listing.highestBid }}</strong></p>
+                                        {% else %}  
+                                            <p class="sold">Sold!</p><p>Unfortunately, you did not win the auction for the item.</p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="infoDescription">{{ listing.listing.description }}</div>
+                            <div class="infoStartingBid">
+                                <span class="dollar">$</span>
+                                <span class="price">{{ listing.listing.startingBid | floatformat:2 }}</span>
+                            </div>
+                            <div class="created">
+                                <p>Listed: {{ listing.listing.timestamp }}</p>
+                                <p>Posted by: {{ listing.listing.seller.username }}</p>
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
