@@ -16,8 +16,8 @@ class ListingAdmin(admin.ModelAdmin):
                     'timestamp')
 
 class WatchlistAdmin(admin.ModelAdmin):
-    list_display = ('user',
-                    'listing')
+    list_display = ('user',)
+    filter_horizontal = ('listing',)
     
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('user',

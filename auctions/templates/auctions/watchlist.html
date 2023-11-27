@@ -11,27 +11,27 @@
         {% for watchlist in watchlist %}
         <div class="listing">
             <div class="displaypic">
-                <a href="{% url 'listing' watchlist.listing.title watchlist.listing.id %}"><img src="{{ watchlist.listing.image }}" alt=""></a>
+                <a href="{% url 'listing' watchlist.title watchlist.id %}"><img src="{{ watchlist.image }}" alt=""></a>
             </div>
             <div class="itemInfo">
                 <div class="infoTitle">
-                    <a href="{% url 'listing' watchlist.listing.title watchlist.listing.id %}">
-                        <h4>{{ watchlist.listing.title }}</h4>
+                    <a href="{% url 'listing' watchlist.title watchlist.id %}">
+                        <h4>{{ watchlist.title }}</h4>
                     </a>
                         <div class="availabilityStatus">
-                            {% if not watchlist.listing.availability %}
+                            {% if not watchlist.availability %}
                                 <p class="sold">Sold!</p>
                             {% endif %}
                         </div>
                 </div>
-                <div class="infoDescription">{{ watchlist.listing.description }}</div>
+                <div class="infoDescription">{{ watchlist.description }}</div>
                 <div class="infoStartingBid">
                     <span class="dollar">$</span>
-                    <span class="price">{{ watchlist.listing.startingBid | floatformat:2 }}</span>
+                    <span class="price">{{ watchlist.startingBid | floatformat:2 }}</span>
                 </div>
                 <div class="created">
-                    <p>Listed on: {{ watchlist.listing.timestamp }}</p>
-                    <p>Posted by: {{ watchlist.listing.seller.username }}</p>
+                    <p>Listed on: {{ watchlist.timestamp }}</p>
+                    <p>Posted by: {{ watchlist.seller.username }}</p>
                 </div>
             </div>
         </div>
