@@ -149,6 +149,7 @@ def listing(request, listing_name, listing_id):
                     Bid(bidder=User.objects.get(pk=request.user.id),
                         listing = listing,
                         bid = bid).save()
+                    return HttpResponseRedirect(reverse('index'))
                 else: 
                     error.append("Another bidder has placed a higher bid than yours.")
         else:
