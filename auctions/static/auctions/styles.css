@@ -273,8 +273,17 @@ body {
     width: max-content;
 }
 
+.newDescription {
+    display: inline-flex;
+}
+
 .newDiv label {
     width: 10rem;
+}
+
+.newDescription div {
+    /* border: solid blue; */
+    margin-right: .3rem;
 }
 
 .newDiv * {
