@@ -140,6 +140,7 @@ def listing(request, listing_name, listing_id):
                     Bid(bidder=User.objects.get(pk=request.user.id),
                         listing = listing,
                         bid = bid).save()
+                    return HttpResponseRedirect(reverse('index'))
                 else:
                     error.append("Ensure that your bid is at least equal to the initial bidding amount.")
             elif bid < startingPrice:
