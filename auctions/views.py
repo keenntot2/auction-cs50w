@@ -17,7 +17,7 @@ def index(request):
     else:
         watchlistCount = None
     return render(request, "auctions/index.html", {
-        'listings' : Listing.objects.all().order_by('-id'),
+        'listings' : [{'listing' : item, 'bid' : Bid.objects.filter(listing=item).count()} for item in Listing.objects.all().order_by('-id')],
         'watchlistCount' : watchlistCount
     })
 
@@ -103,7 +103,7 @@ def new(request):
 
 @login_required
 def listing(request, listing_name, listing_id):
-    item = Listing.objects.filter(pk=listing_id).first()
+    item = [{'item' : item, 'bid' : Bid.objects.filter(listing = item).count()} for item in Listing.objects.filter(pk=listing_id)][0]
     watchlist = Watchlist.objects.get(user = User.objects.get(pk=request.user.id)).listing.filter(id=listing_id).first()
     error = []
     if request.method == 'POST':
@@ -162,7 +162,7 @@ def listing(request, listing_name, listing_id):
         'watchlistCount' : Watchlist.objects.get(user = User.objects.get(pk=request.user.id)).listing.count(),
         'commentForm' : Feedback(),
         'bidForm' : BidForm(),
-        'feedback' : [{'user_priv':secure_username(i.user.username), 'comment' : i.comment} for i in item.listingComment.all()],        
+        'feedback' : [{'user_priv':secure_username(i.user.username), 'comment' : i.comment} for i in item['item'].listingComment.all()],        
         'error' : error
     })
 

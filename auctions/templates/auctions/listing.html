@@ -7,39 +7,39 @@
 {% block body %}
     
     <div class="listingwrapper">
-        {% if item and item.title|lower == listing_name|lower %}
+        {% if item and item.item.title|lower == listing_name|lower %}
             <div class="listingHeader">
                 <div class="listingImg">
-                    <img src="{{ item.image }}" alt="">
+                    <img src="{{ item.item.image }}" alt="">
                 </div>
                 <div class="listingInfo">
                     <div class="listingTitleDiv">
 
-                        <h2>{{ item.title }}</h2>
-                        {% if not item.availability %}
+                        <h2>{{ item.item.title }}</h2>
+                        {% if not item.item.availability %}
                             <div class="availabilityStatus">
                                 <p class="sold">Sold!</p>
                             </div>
                         {% endif %}
-                        {% if item.seller.id != user.id %}
+                        {% if item.item.seller.id != user.id %}
                             {% if watchlist is not None %}
                                 <div class="watchlistBtnDiv">
-                                    <form action="{% url 'listing' item.title item.id %}" method="post">
+                                    <form action="{% url 'listing' item.item.title item.item.id %}" method="post">
                                         {% csrf_token %}
                                         <input type="submit" name="submitBtn" data-action="remove" value="Remove from Watchlist">
                                     </form>
                                 </div>
                             {% else %}
                                 <div class="watchlistBtnDiv">
-                                    <form action="{% url 'listing' item.title item.id %}" method="post">
+                                    <form action="{% url 'listing' item.item.title item.item.id %}" method="post">
                                         {% csrf_token %}
                                         <input type="submit" name="submitBtn" data-action="add" value="Add to Watchlist">
                                     </form>
                                 </div>
                             {% endif%}
-                        {% elif item.seller.id == user.id and item.availability %}
+                        {% elif item.item.seller.id == user.id and item.item.availability %}
                         <div class="closeListbtnDiv">
-                            <form action="{% url 'listing' item.title item.id %}" method="post">
+                            <form action="{% url 'listing' item.item.title item.item.id %}" method="post">
                                 {% csrf_token %}
                                 <input type="submit" name="submitBtn" data-action="close" value="Close Listing" >
                             </form>
@@ -48,24 +48,27 @@
                     </div>
                     <hr>
                     <div class="listingDescDiv">
-                        <p>Description: {{ item.description }}</p>
+                        <p>Description: {{ item.item.description }}</p>
                     </div>
                     <div>
-                        <p>Category: {{ item.category }}</p>
+                        <p>Category: {{ item.item.category }}</p>
                     </div>
                     <div class="listingPrice">
                         <span class="dollar">$</span>
-                        <p>{{ item.startingBid | floatformat:2 }}</p>
+                        <p>{{ item.item.startingBid | floatformat:2 }}</p>
+                    </div>
+                    <div class="nBid">
+                        <p>[{{ item.bid }} Bids]</p>
                     </div>
                     <div class="created">
-                        <p>Listed: {{ item.timestamp }}</p>
-                        <p>Posted by: {{ item.seller.username }}</p>
+                        <p>Listed: {{ item.item.timestamp }}</p>
+                        <p>Posted by: {{ item.item.seller.username }}</p>
                     </div>
                 </div>
             </div>
-            {% if item.seller.id != user.id and item.availability%}
+            {% if item.item.seller.id != user.id and item.item.availability%}
                 <div class="bidDiv">
-                    <form action="{% url 'listing' item.title item.id %}" method="post">
+                    <form action="{% url 'listing' item.item.title item.item.id %}" method="post">
                         {% csrf_token %}
                         <div class="bidFormInput">
                             <span>$</span>{{ bidForm.bid }}
@@ -93,9 +96,9 @@
                         <li>No feedback.</li>
                     {% endfor %}
                 </div>
-                {% if item.seller.id != user.id %}
+                {% if item.item.seller.id != user.id %}
                 <div class="feedbackDiv">
-                    <form action="{% url 'listing' item.title item.id %}" method="post">
+                    <form action="{% url 'listing' item.item.title item.item.id %}" method="post">
                         {% csrf_token %}
                         {{ commentForm }}
                         <input type="submit" name="submitBtn" data-action="comment" value="Add comment">

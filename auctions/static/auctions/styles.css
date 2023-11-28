@@ -64,7 +64,10 @@ body {
     align-self: center;
 }
 
-
+.nBid p {
+    color: gray;
+    font-size: .8rem;
+}
 
 .displaypic {
     margin-left: 5rem;
