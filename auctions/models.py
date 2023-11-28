@@ -29,16 +29,11 @@ class Listing(models.Model):
 
 class Watchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userWatchlist')
-    # listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listingWatchlist")
     listing = models.ManyToManyField(Listing, blank=True)
-
-    # def __str__(self):
-    #     return f"{self.listing}"
     
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commenter")
     comment = models.CharField(max_length=200)
-    # listing = models.ManyToManyField(Listing, blank=True)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listingComment", null=True)
     
 
