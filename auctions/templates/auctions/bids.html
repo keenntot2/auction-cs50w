@@ -19,6 +19,11 @@
                                 <a href="{% url 'listing' listing.listing.title listing.listing.id %}">
                                     <h4>{{ listing.listing.title }}</h4>
                                 </a>
+                                {% if not listing.listing.availability %}
+                                    <div class="availabilityStatus">
+                                        <p class="sold">Sold!</p>
+                                    </div>
+                                {% endif %}
                                 <div class="availabilityStatus">
                                     {% if listing.listing.availability %}
                                         {% if listing.highestBidder == request.user.id %}
@@ -28,7 +33,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% if listing.highestBidder == request.user.id %}
-                                            <p>Congratulations! You won the item for <strong>{{ listing.highestBid }}</strong></p>
+                                            <p>Congratulations! You won the item for <strong>${{ listing.highestBid|floatformat:2 }}</strong></p>
                                         {% else %}  
                                             <p class="sold">Sold!</p><p>Unfortunately, you did not win the auction for the item.</p>
                                         {% endif %}

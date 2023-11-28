@@ -168,7 +168,7 @@ def listing(request, listing_name, listing_id):
 
 @login_required
 def watchlist(request):
-    watchlist = Watchlist.objects.get(user = User.objects.get(pk=1)).listing.all().order_by('-id')
+    watchlist = [{'watchlist' : item, 'bid' : Bid.objects.filter(listing = item).count()} for item in Watchlist.objects.get(user = User.objects.get(pk=request.user.id)).listing.all().order_by('-id')]
     return render(request, 'auctions/watchlist.html', {
         'watchlist' : watchlist,
         'watchlistCount' : Watchlist.objects.get(user = User.objects.get(pk=request.user.id)).listing.count()
@@ -185,7 +185,7 @@ def categories(request):
 def category(request, category_id):
     return render(request, 'auctions/category.html', {
         "category" : Category.objects.get(pk=category_id),
-        "listings" : Category.objects.get(pk=category_id).listingCategory.all(),
+        "listings" : [{'listing' : item, 'bid' : Bid.objects.filter(listing=item).count()} for item in Category.objects.get(pk=category_id).listingCategory.all()],
         'watchlistCount' : Watchlist.objects.get(user = User.objects.get(pk=request.user.id)).listing.count()
     })
 
@@ -204,7 +204,7 @@ def bids(request):
 @login_required
 def selling(request):
     return render(request, 'auctions/selling.html', {
-        'listings' : Listing.objects.filter(seller=User.objects.get(pk=request.user.id)).order_by('-id'),
+        'listings' : [{'listing' : item, 'bid' : Bid.objects.filter(listing=item).count()} for item in Listing.objects.filter(seller=User.objects.get(pk=request.user.id)).order_by('-id')],
         'watchlistCount' : Watchlist.objects.get(user = User.objects.get(pk=request.user.id)).listing.count()
     })
     

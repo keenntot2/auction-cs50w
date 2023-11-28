@@ -11,27 +11,30 @@ Selling - Auctions
         {% for listing in listings %}
                 <div class="listing">
                     <div class="displaypic">
-                        <a href="{% url 'listing' listing.title listing.id %}"><img src="{{ listing.image }}" alt=""></a>
+                        <a href="{% url 'listing' listing.listing.title listing.listing.id %}"><img src="{{ listing.listing.image }}" alt=""></a>
                     </div>
                     <div class="itemInfo">
                         <div class="infoTitle">
-                            <a href="{% url 'listing' listing.title listing.id %}">
-                                <h4>{{ listing.title }}</h4>
+                            <a href="{% url 'listing' listing.listing.title listing.listing.id %}">
+                                <h4>{{ listing.listing.title }}</h4>
                             </a>
-                            {% if not listing.availability %}
+                            {% if not listing.listing.availability %}
                                 <div class="availabilityStatus">
                                     <p class="sold">Sold!</p>
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="infoDescription">{{ listing.description }}</div>
+                        <div class="infoDescription">{{ listing.listing.description }}</div>
                         <div class="infoStartingBid">
                             <span class="dollar">$</span>
-                            <span class="price">{{ listing.startingBid | floatformat:2 }}</span>
+                            <span class="price">{{ listing.listing.startingBid | floatformat:2 }}</span>
+                        </div>
+                        <div class="nBid">
+                            <p>[{{ listing.bid }} Bids]</p>
                         </div>
                         <div class="created">
-                            <p>Listed: {{ listing.timestamp }}</p>
-                            <p>Posted by: {{ listing.seller.username }}</p>
+                            <p>Listed: {{ listing.listing.timestamp }}</p>
+                            <p>Posted by: {{ listing.listing.seller.username }}</p>
                         </div>
                     </div>
                 </div>

@@ -11,27 +11,30 @@
         {% for watchlist in watchlist %}
         <div class="listing">
             <div class="displaypic">
-                <a href="{% url 'listing' watchlist.title watchlist.id %}"><img src="{{ watchlist.image }}" alt=""></a>
+                <a href="{% url 'listing' watchlist.watchlist.title watchlist.watchlist.id %}"><img src="{{ watchlist.watchlist.image }}" alt=""></a>
             </div>
             <div class="itemInfo">
                 <div class="infoTitle">
-                    <a href="{% url 'listing' watchlist.title watchlist.id %}">
-                        <h4>{{ watchlist.title }}</h4>
+                    <a href="{% url 'listing' watchlist.watchlist.title watchlist.watchlist.id %}">
+                        <h4>{{ watchlist.watchlist.title }}</h4>
                     </a>
                         <div class="availabilityStatus">
-                            {% if not watchlist.availability %}
+                            {% if not watchlist.watchlist.availability %}
                                 <p class="sold">Sold!</p>
                             {% endif %}
                         </div>
                 </div>
-                <div class="infoDescription">{{ watchlist.description }}</div>
+                <div class="infoDescription">{{ watchlist.watchlist.description }}</div>
                 <div class="infoStartingBid">
                     <span class="dollar">$</span>
-                    <span class="price">{{ watchlist.startingBid | floatformat:2 }}</span>
+                    <span class="price">{{ watchlist.watchlist.startingBid | floatformat:2 }}</span>
+                </div>
+                <div class="nBid">
+                    <p>[{{ watchlist.bid }} Bids]</p>
                 </div>
                 <div class="created">
-                    <p>Listed on: {{ watchlist.timestamp }}</p>
-                    <p>Posted by: {{ watchlist.seller.username }}</p>
+                    <p>Listed on: {{ watchlist.watchlist.timestamp }}</p>
+                    <p>Posted by: {{ watchlist.watchlist.seller.username }}</p>
                 </div>
             </div>
         </div>
